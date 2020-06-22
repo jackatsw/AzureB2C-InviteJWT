@@ -1,12 +1,18 @@
-﻿<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<TrustFrameworkPolicy xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
-  xmlns:xsd="http://www.w3.org/2001/XMLSchema" DeploymentMode="Development" UserJourneyRecorderEndpoint="urn:journeyrecorder:applicationinsights" 
-  xmlns="http://schemas.microsoft.com/online/cpim/schemas/2013/06" PolicySchemaVersion="0.3.0.0" TenantId="surewinjwt.onmicrosoft.com" PolicyId="B2C_1A_signup_invitation" PublicPolicyUri="http://surewinjwt.onmicrosoft.com/B2C_1A_signup_invitation">
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<TrustFrameworkPolicy
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+  xmlns="http://schemas.microsoft.com/online/cpim/schemas/2013/06"
+  PolicySchemaVersion="0.3.0.0"
+  TenantId="swdarwin.onmicrosoft.com"
+  PolicyId="B2C_1A_signup_invitation"
+  PublicPolicyUri="http://swdarwin.onmicrosoft.com/B2C_1A_signup_invitation">
 
   <BasePolicy>
-    <TenantId>surewinjwt.onmicrosoft.com</TenantId>
+    <TenantId>swdarwin.onmicrosoft.com</TenantId>
     <PolicyId>B2C_1A_TrustFrameworkExtensions</PolicyId>
   </BasePolicy>
+
   <BuildingBlocks>
     <ClaimsSchema>
       <!-- Sample: Read only email address to present to the user-->
@@ -18,13 +24,11 @@
 
       <!--Sample: Stores the error message for unsolicited request (a request without id_token_hint) and user not found-->
       <ClaimType Id="errorMessage">
-        <DisplayName>Error</DisplayName>
-        <DataType>string</DataType>
+     	  <DisplayName>Error</DisplayName>
+     	  <DataType>string</DataType>
         <UserHelpText>Add help text here</UserHelpText>
-        <UserInputType>Paragraph</UserInputType>
+     	  <UserInputType>Paragraph</UserInputType>
       </ClaimType>
-
-
     </ClaimsSchema>
 
     <ClaimsTransformations>
@@ -99,14 +103,10 @@
           <InputClaimsTransformations>
             <!--Sample: Copy the email to ReadOnlyEamil claim type-->
             <InputClaimsTransformation ReferenceId="CopyEmailAddress" />
-            <InputClaimsTransformation ReferenceId="CopyFavFood" />
-            <InputClaimsTransformation ReferenceId="CopyLegacy" />
           </InputClaimsTransformations>
           <InputClaims>
             <!--Sample: Set input the ReadOnlyEmail claim type to prefilled the email address-->
             <InputClaim ClaimTypeReferenceId="ReadOnlyEmail" />
-            <InputClaim ClaimTypeReferenceId="ReadOnlyFavFood" />
-            <InputClaim ClaimTypeReferenceId="ReadOnlyLegacy" />
           </InputClaims>
           <OutputClaims>
             <OutputClaim ClaimTypeReferenceId="objectId" />
@@ -117,8 +117,6 @@
             <OutputClaim ClaimTypeReferenceId="executed-SelfAsserted-Input" DefaultValue="true" />
             <OutputClaim ClaimTypeReferenceId="authenticationSource" />
             <OutputClaim ClaimTypeReferenceId="newUser" />
-            <OutputClaim ClaimTypeReferenceId="ReadOnlyFavFood" Required="true" />
-            <OutputClaim ClaimTypeReferenceId="ReadOnlyLegacy" Required="true" />
 
             <!-- Optional claims, to be collected from the user -->
             <OutputClaim ClaimTypeReferenceId="displayName" />
@@ -145,7 +143,7 @@
             <Item Key="ContentDefinitionReferenceId">api.selfasserted</Item>
             <!-- Sample: Remove the continue button-->
             <Item Key="setting.showContinueButton">false</Item>
-          </Metadata>
+         </Metadata>
           <InputClaimsTransformations>
             <InputClaimsTransformation ReferenceId="CreateUnsolicitedErrorMessage" />
           </InputClaimsTransformations>
@@ -159,8 +157,8 @@
       </TechnicalProfiles>
     </ClaimsProvider>
 
-    <!--Sample: This technical profile specifies how B2C should validate your token, and what claims you want B2C to extract from the token. 
-      The METADATA value in the TechnicalProfile meta-data is required. 
+    <!--Sample: This technical profile specifies how B2C should validate your token, and what claims you want B2C to extract from the token.
+      The METADATA value in the TechnicalProfile meta-data is required.
       The “IdTokenAudience” and “issuer” arguments are optional (see later section)-->
     <ClaimsProvider>
       <DisplayName>My ID Token Hint ClaimsProvider</DisplayName>
@@ -171,7 +169,7 @@
           <Metadata>
 
             <!--Sample action required: replace with your endpoint location -->
-            <Item Key="METADATA">https://{subdomain}.azurewebsites.net/.well-known/openid-configuration</Item>
+            <Item Key="METADATA">https://swdarwin.b2clogin.com/swdarwin.onmicrosoft.com/v2.0/.well-known/openid-configuration?p=B2C_1A_signup_signin_Dummy</Item>
 
             <!-- <Item Key="IdTokenAudience">your_optional_audience_override</Item> -->
             <!-- <Item Key="issuer">your_optional_token_issuer_override</Item> -->
@@ -179,24 +177,8 @@
           <OutputClaims>
             <!--Sample: Read the email cliam from the id_token_hint-->
             <OutputClaim ClaimTypeReferenceId="email" />
-            <OutputClaim ClaimTypeReferenceId="favfood" />
-            <OutputClaim ClaimTypeReferenceId="legacy" />
           </OutputClaims>
         </TechnicalProfile>
-
-
-        <TechnicalProfile Id="AAD-UserWriteUsingLogonEmail-NewClaims">
-          <PersistedClaims>
-            <PersistedClaim ClaimTypeReferenceId="favfood" PartnerClaimType="ReadOnlyFavFood" />
-            <PersistedClaim ClaimTypeReferenceId="legacy" PartnerClaimType="ReadOnlyLegacy" />
-          </PersistedClaims>
-          <!-- <OutputClaims>
-            <OutputClaim ClaimTypeReferenceId="ReadOnlyFavFood" />
-            <OutputClaim ClaimTypeReferenceId="ReadOnlyLegacy" />
-          </OutputClaims> -->
-          <IncludeTechnicalProfile ReferenceId="AAD-UserWriteUsingLogonEmail" />
-        </TechnicalProfile>
-
       </TechnicalProfiles>
     </ClaimsProvider>
   </ClaimsProviders>
@@ -210,7 +192,7 @@
 
         <!-- Sample: Check if user tries to run the policy without invitation -->
         <OrchestrationStep Order="2" Type="ClaimsExchange">
-          <Preconditions>
+         <Preconditions>
             <Precondition Type="ClaimsExist" ExecuteActionsIf="true">
               <Value>email</Value>
               <Action>SkipThisOrchestrationStep</Action>
@@ -238,27 +220,20 @@
 
   <RelyingParty>
     <DefaultUserJourney ReferenceId="SignUpInvitation" />
-    <UserJourneyBehaviors>
-      <JourneyInsights TelemetryEngine="ApplicationInsights" InstrumentationKey="{app-insights-instr-key}" DeveloperMode="true" ClientEnabled="false" ServerEnabled="true" TelemetryVersion="1.0.0" />
-    </UserJourneyBehaviors>
     <TechnicalProfile Id="PolicyProfile">
       <DisplayName>PolicyProfile</DisplayName>
       <Protocol Name="OpenIdConnect" />
 
-      <!--Sample: Set the input claims to be read from the id_token_hint-->
+	    <!--Sample: Set the input claims to be read from the id_token_hint-->
       <InputClaims>
         <InputClaim ClaimTypeReferenceId="email" PartnerClaimType="email" />
-        <InputClaim ClaimTypeReferenceId="favfood" PartnerClaimType="favfood" />
-        <InputClaim ClaimTypeReferenceId="legacy" PartnerClaimType="legacy" />
       </InputClaims>
 
       <OutputClaims>
         <OutputClaim ClaimTypeReferenceId="displayName" />
         <OutputClaim ClaimTypeReferenceId="givenName" />
         <OutputClaim ClaimTypeReferenceId="surname" />
-        <OutputClaim ClaimTypeReferenceId="ReadOnlyEmail" />
-        <OutputClaim ClaimTypeReferenceId="ReadOnlyFavFood" />
-        <OutputClaim ClaimTypeReferenceId="ReadOnlyLegacy" />
+        <OutputClaim ClaimTypeReferenceId="email" />
         <OutputClaim ClaimTypeReferenceId="objectId" PartnerClaimType="sub"/>
         <OutputClaim ClaimTypeReferenceId="tenantId" AlwaysUseDefaultValue="true" DefaultValue="{Policy:TenantObjectId}" />
       </OutputClaims>
@@ -267,6 +242,3 @@
   </RelyingParty>
 
 </TrustFrameworkPolicy>
-
-
-
